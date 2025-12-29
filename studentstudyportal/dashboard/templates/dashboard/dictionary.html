@@ -1,0 +1,58 @@
+{% extends 'dashboard/base.html' %} 
+{% load static %} 
+{% block content %}
+
+<section class="text-center container">
+    <h2>Student Dictionary</h2>
+    <p>Enter any word to get the phonetics, definition and an example for the word</p>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input class="btn btn-danger" type="submit" value="Submit">
+    </form><br>
+
+    <div class="content-section p-0 mt-5">
+    {% if input %}
+
+        <div class="custom-header">
+            <h2>{{ input }}</h2>
+            <h6>{{ phonetics }}</h6>
+
+            {% if audio %}
+            <audio id="player" src="{{ audio }}"></audio>
+            <div>
+                <a onclick="document.getElementById('player').play();">
+                    <i class="fa fa-volume-up fa-2x"></i>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <hr class="p-0 m-0">
+
+        <h4>Definition: {{ definition }}</h4>
+
+        {% if example %}
+        <h4>Example: {{ example }}</h4>
+        {% endif %}
+
+        <h4>Synonyms:</h4>
+
+        {% if synonyms %}
+            {% for synonym in synonyms %}
+                <span class="badge bg-secondary m-1">{{ synonym }}</span>
+            {% endfor %}
+        {% else %}
+            <p>No synonyms found</p>
+        {% endif %}
+
+        <hr>
+
+    {% else %}
+        <h2>Sorry, no result found</h2>
+    {% endif %}
+    </div>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,55 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="text-center container">
+    <h2>Search Videos on YouTube</h2>
+    <p>Search videos and click to open them on YouTube</p>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input class="btn btn-danger mt-2" type="submit" value="Search">
+    </form>
+
+    <br>
+
+    {% for result in results %}
+    <a href="{{ result.link }}" target="_blank" style="text-decoration: none; color: inherit;">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+
+                    <!-- Thumbnail -->
+                    <div class="col-md-5">
+                        <img class="img-fluid rounded" src="{{ result.thumbnail }}" alt="thumbnail">
+                    </div>
+
+                    <!-- Video Info -->
+                    <div class="col-md-7 text-left">
+                        <h3 class="p-0 m-0">{{ result.title }}</h3>
+
+                        <b>
+                            <h5 class="p-0 m-0 text-primary">{{ result.channel }}</h5>
+                        </b>
+
+                        {% if result.description %}
+                        <p class="mt-2">{{ result.description }}</p>
+                        {% endif %}
+
+                        <b>
+                            <h6 class="mt-2">Duration: {{ result.duration }}</h6>
+                            <h6 class="mt-1">Views: {{ result.viewcount }}</h6>
+                            <h6 class="mt-1">Published: {{ result.published }}</h6>
+                        </b>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+
+</section>
+
+{% endblock content %}
